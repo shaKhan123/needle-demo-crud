@@ -21,9 +21,20 @@ public class AuthorServiceImpl implements AuthorService{
 		return authorRepository.save(author);
 	}
 
-	public Author updateAuthor(Author mockAuthor) {
+	public Author updateAuthor(Author updatedAuthor, long id) {
 		
-		return new Author();
+		Author author = authorRepository.findById(id);
+		author.setId(updatedAuthor.getId());
+		author.setFirstName(updatedAuthor.getFirstName());
+		author.setLastName(updatedAuthor.getLastName());
+		author.setCountry(updatedAuthor.getCountry());
+		author.setBooks(updatedAuthor.getBooks());
+		
+		return authorRepository.save(author);
+	}
+
+	public void deleteAuthor(Author mockAuthor) {
+	
 	}
 
 }

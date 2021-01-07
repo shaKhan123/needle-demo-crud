@@ -18,7 +18,7 @@ public class Author {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private long id;
 
 	@Column(nullable = false)
 	private String firstName;
