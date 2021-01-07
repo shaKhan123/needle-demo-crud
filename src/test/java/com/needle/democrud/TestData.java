@@ -12,4 +12,8 @@ public class TestData {
 		author.setCountry("us");
 		return author;
 	}
+	
+	public static String getAuthorByIdJson() {
+		return "{\"id\":1,\"firstName\":\"john\",\"lastName\":\"doe\",\"country\":\"us\",\"books\":[]}";
+	}
 }

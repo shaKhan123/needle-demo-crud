@@ -1,7 +1,12 @@
 package com.needle.democrud.service;
 
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.needle.democrud.TestData;
 import com.needle.democrud.entity.Author;
+import com.needle.democrud.error.ResourceNotFoundException;
 import com.needle.democrud.repository.AuthorRepository;
 
 @SpringBootTest
@@ -25,10 +31,10 @@ public class AuthorServiceTest {
 	AuthorRepository authorRepository;
 
 	@Test
-	void findAuthorByIdTest() {
+	void findAuthorByIdTest() throws ResourceNotFoundException {
 		Author mockAuthor = TestData.getMockAuthor();
 
-		when(authorRepository.findById(Mockito.anyLong())).thenReturn(mockAuthor);
+		when(authorRepository.findById(Mockito.any(Long.class))).thenReturn(Optional.of(mockAuthor));
 		Author author = authorService.findById(1L);
 
 		assertEquals(mockAuthor.getId(), author.getId());
@@ -45,16 +51,15 @@ public class AuthorServiceTest {
 	}
 
 	@Test
-	void updateAuthorTest() {
+	void updateAuthorTest() throws ResourceNotFoundException {
 		Author mockAuthor = TestData.getMockAuthor();
-
 		Author updatedMockAuthor = TestData.getMockAuthor();
 		updatedMockAuthor.setFirstName("jane");
 
-		when(authorRepository.findById(Mockito.anyLong())).thenReturn(mockAuthor);
-
+		when(authorRepository.findById(Mockito.any(Long.class))).thenReturn(Optional.of(mockAuthor));
 		when(authorRepository.save(Mockito.any(Author.class))).thenReturn(updatedMockAuthor);
-		Author author = authorService.updateAuthor(updatedMockAuthor, 1);
+		
+		Author author = authorService.updateAuthor(updatedMockAuthor, 1L);
 
 		assertEquals(updatedMockAuthor.getFirstName(), author.getFirstName());
 	}
@@ -62,9 +67,18 @@ public class AuthorServiceTest {
 	@Test
 	void deleteAuthorTest() {
 		Author mockAuthor = TestData.getMockAuthor();
-
 		authorService.deleteAuthor(mockAuthor);
-
 		Mockito.verify(authorRepository, Mockito.times(1)).delete(Mockito.any(Author.class));
+	}
+
+	@Test
+	void testExpectedExceptionWithSuperType() {
+
+		when(authorRepository.findById(Mockito.anyLong())).thenReturn(null);
+		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+			authorService.findById(1L);
+			;
+		});
+
 	}
 }
