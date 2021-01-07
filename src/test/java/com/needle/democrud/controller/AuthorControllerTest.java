@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.needle.democrud.TestData;
 import com.needle.democrud.entity.Author;
+import com.needle.democrud.error.ResourceNotFoundException;
 import com.needle.democrud.service.AuthorService;
 
 @WebMvcTest
@@ -31,45 +32,45 @@ public class AuthorControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	public void shouldReturnAuthorById() throws Exception {
+	void shouldReturnAuthorById() throws Exception {
 		Author mockAuthor = TestData.getMockAuthor();
 
 		when(authorService.findById(Mockito.any(Long.class))).thenReturn(mockAuthor);
-		this.mockMvc.perform(get("/author/1"))
-		.andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get(TestData.URL)).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json(TestData.getAuthorByIdJson()));
 	}
-	
+
 	@Test
-	public void shouldReturnSavedAuthor() throws Exception {
+	void shouldReturnSavedAuthor() throws Exception {
 		Author mockAuthor = TestData.getMockAuthor();
 
 		when(authorService.saveAuthor(Mockito.any(Author.class))).thenReturn(mockAuthor);
-		this.mockMvc.perform(post("/author")
-				.contentType(MediaType.APPLICATION_JSON)
-			    .content(TestData.getAuthorByIdJson()))
-		.andDo(print())
-		.andExpect(status().isOk())
-				.andExpect(content().json(TestData.getAuthorByIdJson()));
+		this.mockMvc
+				.perform(post("/author").contentType(MediaType.APPLICATION_JSON).content(TestData.getAuthorByIdJson()))
+				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(TestData.getAuthorByIdJson()));
 	}
-	
+
 	@Test
-	public void shouldReturnUpdatedAuthor() throws Exception {
+	void shouldReturnUpdatedAuthor() throws Exception {
 		Author mockAuthor = TestData.getMockAuthor();
 
 		when(authorService.updateAuthor(Mockito.any(Author.class), Mockito.any(Long.class))).thenReturn(mockAuthor);
-		this.mockMvc.perform(put("/author/1")
-				.contentType(MediaType.APPLICATION_JSON)
-			    .content(TestData.getAuthorByIdJson()))
-		.andDo(print())
-		.andExpect(status().isOk())
-				.andExpect(content().json(TestData.getAuthorByIdJson()));
+		this.mockMvc
+				.perform(put(TestData.URL).contentType(MediaType.APPLICATION_JSON).content(TestData.getAuthorByIdJson()))
+				.andDo(print()).andExpect(status().isOk()).andExpect(content().json(TestData.getAuthorByIdJson()));
 	}
-	
+
 	@Test
-	public void shouldDeleteAuthor() throws Exception {
-		this.mockMvc.perform(delete("/author/1"))
-		.andDo(print())
-		.andExpect(status().isOk());
+	void shouldDeleteAuthor() throws Exception {
+		this.mockMvc.perform(delete(TestData.URL)).andDo(print()).andExpect(status().isOk());
+	}
+
+	@Test
+	void shouldReturnNotFoundResponse() throws Exception {
+
+		when(authorService.findById(Mockito.any(Long.class))).thenThrow(new ResourceNotFoundException());
+		this.mockMvc.perform(get(TestData.URL).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound())
+				.andExpect(result -> result.getResolvedException().getMessage()
+						.equals("404 NOT_FOUND \"Author Not Found for given Id\""));
 	}
 }

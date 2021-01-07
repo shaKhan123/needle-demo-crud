@@ -71,13 +71,11 @@ public class AuthorServiceTest {
 	}
 
 	@Test
-	void testExpectedExceptionWithSuperType() {
-
+	void testExpectedExceptionResourceNotFoundException() {
 		when(authorRepository.findById(Mockito.anyLong())).thenReturn(null);
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			authorService.findById(1L);
-			;
 		});
-
 	}
+	
 }

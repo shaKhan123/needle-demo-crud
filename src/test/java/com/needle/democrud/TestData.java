@@ -9,6 +9,8 @@ import com.needle.democrud.entity.Book;
 
 public class TestData {
 
+	public static String URL = "/author/1";
+	
 	public static Author getMockAuthor() {
 		Author author = new Author();
 		author.setId(1);

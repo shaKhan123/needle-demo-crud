@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.needle.democrud.entity.Author;
 import com.needle.democrud.error.ResourceNotFoundException;
 import com.needle.democrud.service.AuthorService;
+import com.needle.democrud.util.Message;
 
 @RestController
 public class AuthorController {
@@ -28,7 +29,7 @@ public class AuthorController {
 		try {
 			return authorService.findById(id);
 		} catch (ResourceNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found for given Id", e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, Message.RESOURCE_NOT_FOUND_MESSAGE, e);
 		}
 	}
 
@@ -42,13 +43,13 @@ public class AuthorController {
 		try {
 			return new ResponseEntity<>(authorService.updateAuthor(author, id), HttpStatus.OK);
 		} catch (ResourceNotFoundException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Author Not Found for given Id", e);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, Message.RESOURCE_NOT_FOUND_MESSAGE, e);
 		}
 	}
 
 	@DeleteMapping("/author/{id}")
 	public @ResponseBody ResponseEntity<String> deleteAuthor(@PathVariable Long id) {
 		authorService.deleteAuthor(id);
-		return new ResponseEntity<>("deleted successfully!", HttpStatus.OK);
+		return new ResponseEntity<>(Message.DELETE_MESSAGE, HttpStatus.OK);
 	}
 }
