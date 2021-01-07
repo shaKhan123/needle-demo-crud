@@ -66,9 +66,8 @@ public class AuthorServiceTest {
 
 	@Test
 	void deleteAuthorTest() {
-		Author mockAuthor = TestData.getMockAuthor();
-		authorService.deleteAuthor(mockAuthor);
-		Mockito.verify(authorRepository, Mockito.times(1)).delete(Mockito.any(Author.class));
+		authorService.deleteAuthor(1L);
+		Mockito.verify(authorRepository, Mockito.times(1)).deleteById(Mockito.any(Long.class));
 	}
 
 	@Test

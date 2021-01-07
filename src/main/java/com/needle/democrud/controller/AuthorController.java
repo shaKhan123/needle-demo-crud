@@ -32,6 +32,6 @@ public class AuthorController {
 
 	@PostMapping("/author")
 	public @ResponseBody ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
-		return null;
+		return new ResponseEntity<>(authorService.saveAuthor(author), HttpStatus.OK);
 	}
 }

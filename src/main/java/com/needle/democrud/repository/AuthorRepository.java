@@ -9,5 +9,5 @@ import com.needle.democrud.entity.Author;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
 	Author findById(long id);
-	
+	void deleteById(long id);
 }

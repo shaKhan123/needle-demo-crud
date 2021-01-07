@@ -8,5 +8,5 @@ public interface AuthorService {
 	public Author findById(Long id) throws ResourceNotFoundException;
 	public Author saveAuthor(Author author);
 	public Author updateAuthor(Author updatedAuthor, Long id) throws ResourceNotFoundException;
-	public void deleteAuthor(Author author);
+	public void deleteAuthor(Long id);
 }

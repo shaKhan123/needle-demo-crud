@@ -1,27 +1,21 @@
 package com.needle.democrud.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.Optional;
 
 import com.needle.democrud.TestData;
 import com.needle.democrud.entity.Author;
@@ -57,5 +51,28 @@ public class AuthorControllerTest {
 		.andDo(print())
 		.andExpect(status().isOk())
 				.andExpect(content().json(TestData.getAuthorByIdJson()));
+	}
+	
+	@Test
+	public void shouldReturnUpdatedAuthor() throws Exception {
+		Author mockAuthor = TestData.getMockAuthor();
+
+		when(authorService.updateAuthor(Mockito.any(Author.class), 1L)).thenReturn(mockAuthor);
+		this.mockMvc.perform(put("/author/1")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(TestData.getAuthorByIdJson()))
+		.andDo(print())
+		.andExpect(status().isOk())
+				.andExpect(content().json(TestData.getAuthorByIdJson()));
+	}
+	
+	@Test
+	public void shouldDeleteAuthor() throws Exception {
+		Author mockAuthor = TestData.getMockAuthor();
+
+		when(authorService.updateAuthor(Mockito.any(Author.class), 1L)).thenReturn(mockAuthor);
+		this.mockMvc.perform(delete("/author/1"))
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 }
