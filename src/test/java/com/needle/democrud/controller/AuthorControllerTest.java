@@ -8,12 +8,15 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,7 +41,21 @@ public class AuthorControllerTest {
 		Author mockAuthor = TestData.getMockAuthor();
 
 		when(authorService.findById(Mockito.any(Long.class))).thenReturn(mockAuthor);
-		this.mockMvc.perform(get("/author/1")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/author/1"))
+		.andDo(print()).andExpect(status().isOk())
+				.andExpect(content().json(TestData.getAuthorByIdJson()));
+	}
+	
+	@Test
+	public void shouldReturnSavedAuthor() throws Exception {
+		Author mockAuthor = TestData.getMockAuthor();
+
+		when(authorService.saveAuthor(Mockito.any(Author.class))).thenReturn(mockAuthor);
+		this.mockMvc.perform(post("/author")
+				.contentType(MediaType.APPLICATION_JSON)
+			    .content(TestData.getAuthorByIdJson()))
+		.andDo(print())
+		.andExpect(status().isOk())
 				.andExpect(content().json(TestData.getAuthorByIdJson()));
 	}
 }

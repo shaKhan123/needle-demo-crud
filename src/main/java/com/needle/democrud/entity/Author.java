@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Data;
 
 @Data
@@ -32,7 +30,6 @@ public class Author {
 	private String country;
 	
     @OneToMany(mappedBy = "author")
-    @JsonBackReference
     private List<Book> books = new ArrayList<>();
     
     

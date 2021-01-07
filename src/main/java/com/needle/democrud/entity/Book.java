@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.Data;
 
 @Data
@@ -25,7 +23,6 @@ public class Book {
 
 	@ManyToOne
 	@JoinColumn(name = "AUTHOR_ID", nullable = false)
-	@JsonManagedReference
 	private Author author;
 
 }

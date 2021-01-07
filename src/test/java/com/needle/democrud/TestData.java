@@ -25,6 +25,7 @@ public class TestData {
 		book.setTitle("new era");
 		return book;
 	}
+	
 	public static String getAuthorByIdJson() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(getMockAuthor());
