@@ -21,4 +21,9 @@ public class AuthorServiceImpl implements AuthorService{
 		return authorRepository.save(author);
 	}
 
+	public Author updateAuthor(Author mockAuthor) {
+		
+		return new Author();
+	}
+
 }
