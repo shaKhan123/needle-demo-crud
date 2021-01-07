@@ -35,5 +35,14 @@ public class AuthorServiceTest {
 		assertEquals(mockAuthor.getId(), author.getId());
 	}
 	
-
+	@Test
+	void saveAuthorTest() {
+		Author mockAuthor = TestData.getMockAuthor();
+		
+		when(authorRepository.save(Mockito.any(Author.class)))
+		.thenReturn(mockAuthor);
+		Author author = authorService.saveAuthor(mockAuthor);
+		
+		assertEquals(mockAuthor.getId(), author.getId());
+	}
 }

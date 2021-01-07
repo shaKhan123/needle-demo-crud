@@ -17,4 +17,9 @@ public class AuthorServiceImpl implements AuthorService{
 		return authorRepository.findById(id);
 	}
 
+	public Author saveAuthor(Author mockAuthor) {
+		
+		return new Author();
+	}
+
 }
