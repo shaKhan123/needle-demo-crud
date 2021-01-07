@@ -57,7 +57,7 @@ public class AuthorControllerTest {
 	public void shouldReturnUpdatedAuthor() throws Exception {
 		Author mockAuthor = TestData.getMockAuthor();
 
-		when(authorService.updateAuthor(Mockito.any(Author.class), 1L)).thenReturn(mockAuthor);
+		when(authorService.updateAuthor(Mockito.any(Author.class), Mockito.any(Long.class))).thenReturn(mockAuthor);
 		this.mockMvc.perform(put("/author/1")
 				.contentType(MediaType.APPLICATION_JSON)
 			    .content(TestData.getAuthorByIdJson()))
@@ -68,9 +68,6 @@ public class AuthorControllerTest {
 	
 	@Test
 	public void shouldDeleteAuthor() throws Exception {
-		Author mockAuthor = TestData.getMockAuthor();
-
-		when(authorService.updateAuthor(Mockito.any(Author.class), 1L)).thenReturn(mockAuthor);
 		this.mockMvc.perform(delete("/author/1"))
 		.andDo(print())
 		.andExpect(status().isOk());
