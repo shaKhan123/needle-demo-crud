@@ -3,8 +3,10 @@ package com.needle.democrud.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +34,7 @@ public class Author {
 	private String country;
 	
 	@JsonManagedReference
-    @OneToMany(mappedBy = "author")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
     
     

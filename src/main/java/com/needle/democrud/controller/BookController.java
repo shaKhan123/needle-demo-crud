@@ -26,21 +26,29 @@ public class BookController {
 
 	@GetMapping("/book/{id}")
 	Book getBookById(@PathVariable Long id) {
-		return null;
+		try {
+			return bookService.findBookById(id);
+		} catch (ResourceNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, Message.RESOURCE_NOT_FOUND_MESSAGE, e);
+		}
 	}
 
 	@PostMapping("/book")
 	public @ResponseBody ResponseEntity<Book> saveBook(@RequestBody Book book) {
-		return null;
+		return new ResponseEntity<>(bookService.save(book), HttpStatus.OK);
 	}
 
 	@PutMapping("/book/{id}")
 	public @ResponseBody ResponseEntity<Book> updateBook(@RequestBody Book book, @PathVariable Long id) {
-		return null;
+		try {
+			return new ResponseEntity<>(bookService.update(book, id), HttpStatus.OK);
+		} catch (ResourceNotFoundException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, Message.RESOURCE_NOT_FOUND_MESSAGE, e);
+		}
 	}
 
 	@DeleteMapping("/book/{id}")
 	public @ResponseBody ResponseEntity<String> deleteBook(@PathVariable Long id) {
-		return null;
+		return new ResponseEntity<>(Message.DELETE_MESSAGE, HttpStatus.OK);
 	}
 }

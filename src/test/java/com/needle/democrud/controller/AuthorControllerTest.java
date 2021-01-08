@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.needle.democrud.TestData;
 import com.needle.democrud.entity.Author;
 import com.needle.democrud.error.ResourceNotFoundException;
-import com.needle.democrud.service.AuthorService;
 import com.needle.democrud.service.AuthorServiceImpl;
 
 @WebMvcTest(AuthorController.class)
