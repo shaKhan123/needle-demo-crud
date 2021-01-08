@@ -24,7 +24,7 @@ import com.needle.democrud.repository.BookRepository;
 public class BookServiceTest {
 
 	@InjectMocks
-	BookService bookService;
+	BookServiceImpl bookService;
 	
 	@Mock
 	BookRepository bookRepository;

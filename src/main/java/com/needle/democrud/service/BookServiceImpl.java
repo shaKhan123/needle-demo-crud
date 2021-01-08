@@ -24,15 +24,18 @@ public class BookServiceImpl implements BookService{
 	}
 
 	@Override
-	public Book update(Book book, Long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Book update(Book updatedBook, Long id) throws ResourceNotFoundException {
+		return bookRepository.findById(id).map(book -> {
+			book.setTitle(updatedBook.getTitle());
+			book.setAuthor(updatedBook.getAuthor());
+			return book;
+		})
+		.orElseThrow(() -> new ResourceNotFoundException());
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		
+		bookRepository.deleteById(id);
 	}
 
 }

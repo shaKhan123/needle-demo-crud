@@ -9,8 +9,9 @@ import com.needle.democrud.entity.Book;
 
 public class TestData {
 
-	public static String URL = "/author/1";
-	
+	public static String AUTHOR_URL = "/author/1";
+	public static String BOOK_URL = "/book/1";
+
 	public static Author getMockAuthor() {
 		Author author = new Author();
 		author.setId(1);
@@ -28,8 +29,13 @@ public class TestData {
 		return book;
 	}
 	
-	public static String getAuthorByIdJson() throws JsonProcessingException {
+	public static String getAuthorByJson() throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(getMockAuthor());
+	}
+	
+	public static String getBookByJson() throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.writeValueAsString(getMockBook());
 	}
 }
