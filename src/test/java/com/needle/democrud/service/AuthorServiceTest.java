@@ -72,7 +72,6 @@ public class AuthorServiceTest {
 
 	@Test
 	void testExpectedExceptionResourceNotFoundException() {
-		when(authorRepository.findById(Mockito.anyLong())).thenReturn(null);
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> {
 			authorService.findById(1L);
 		});

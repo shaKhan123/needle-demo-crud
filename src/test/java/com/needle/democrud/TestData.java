@@ -23,7 +23,7 @@ public class TestData {
 	
 	public static Book getMockBook() {
 		Book book = new Book();
-		book.setId(1);
+		book.setId(1L);
 		book.setTitle("new era");
 		return book;
 	}

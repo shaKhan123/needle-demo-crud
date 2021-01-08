@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 
 @Data
@@ -16,13 +18,14 @@ public class Book {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String title;
 
 	@ManyToOne
 	@JoinColumn(name = "AUTHOR_ID", nullable = false)
+	@JsonBackReference
 	private Author author;
 
 }

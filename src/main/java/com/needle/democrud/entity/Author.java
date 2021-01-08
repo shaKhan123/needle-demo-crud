@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Data;
 
 @Data
@@ -29,6 +31,7 @@ public class Author {
 	@Column(nullable = false)
 	private String country;
 	
+	@JsonManagedReference
     @OneToMany(mappedBy = "author")
     private List<Book> books = new ArrayList<>();
     
